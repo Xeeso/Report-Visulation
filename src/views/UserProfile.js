@@ -1,6 +1,5 @@
-
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 // reactstrap components
 import {
   Button,
@@ -17,6 +16,57 @@ import {
 } from "reactstrap";
 
 function UserProfile() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [postal, setPostal] = useState("");
+  const [aboutMe, setAboutMe] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(`http://localhost:4000/user`);
+      if (response.status === 200) {
+        const { data } = response;
+
+        setUsername(data.name);
+        setEmail(data.email);
+        setFirstname(data.firstname);
+        setLastname(data.lastname);
+        setAddress(data.address);
+        setCity(data.city);
+        setCountry(data.country);
+        setPostal(data.postalCode);
+        setAboutMe(data.aboutMe);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const onHandleSubmit = async (e) => {
+    e.preventDefault();
+
+    // setIsLoading(true);
+    const response = await axios.put(`http://localhost:4000/user`, {
+      name: username,
+      email,
+      firstname,
+      lastname,
+      address,
+      city,
+      country,
+      postalCode: postal,
+      aboutMe,
+    });
+    // setIsLoading(false);
+
+    if (response.status === 200) return response.data;
+  };
   return (
     <>
       <div className="content">
@@ -27,7 +77,7 @@ function UserProfile() {
                 <h5 className="title">Edit Profile</h5>
               </CardHeader>
               <CardBody>
-                <Form>
+                <Form onSubmit={onHandleSubmit}>
                   <Row>
                     <Col className="pr-md-1" md="5">
                       <FormGroup>
@@ -44,9 +94,10 @@ function UserProfile() {
                       <FormGroup>
                         <label>Username</label>
                         <Input
-                          defaultValue="Karina"
                           placeholder="Username"
                           type="text"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
                         />
                       </FormGroup>
                     </Col>
@@ -55,7 +106,12 @@ function UserProfile() {
                         <label htmlFor="exampleInputEmail1">
                           Email address
                         </label>
-                        <Input placeholder="mike@email.com" type="email" />
+                        <Input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="Email"
+                        />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -64,9 +120,12 @@ function UserProfile() {
                       <FormGroup>
                         <label>First Name</label>
                         <Input
-                          defaultValue="Davith"
-                          placeholder="Company"
+                          placeholder="First Name"
                           type="text"
+                          value={firstname}
+                          onChange={(e) => {
+                            setFirstname(e.target.value);
+                          }}
                         />
                       </FormGroup>
                     </Col>
@@ -74,9 +133,12 @@ function UserProfile() {
                       <FormGroup>
                         <label>Last Name</label>
                         <Input
-                          defaultValue="Andrew"
                           placeholder="Last Name"
                           type="text"
+                          value={lastname}
+                          onChange={(e) => {
+                            setLastname(e.target.value);
+                          }}
                         />
                       </FormGroup>
                     </Col>
@@ -86,9 +148,12 @@ function UserProfile() {
                       <FormGroup>
                         <label>Address</label>
                         <Input
-                          defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                           placeholder="Home Address"
                           type="text"
+                          value={address}
+                          onChange={(e) => {
+                            setAddress(e.target.value);
+                          }}
                         />
                       </FormGroup>
                     </Col>
@@ -98,9 +163,12 @@ function UserProfile() {
                       <FormGroup>
                         <label>City</label>
                         <Input
-                          defaultValue=""
                           placeholder="City"
                           type="text"
+                          value={city}
+                          onChange={(e) => {
+                            setCity(e.target.value);
+                          }}
                         />
                       </FormGroup>
                     </Col>
@@ -108,8 +176,11 @@ function UserProfile() {
                       <FormGroup>
                         <label>Country</label>
                         <Input
-                          defaultValue="Andrew"
                           placeholder="Country"
+                          value={country}
+                          onChange={(e) => {
+                            setCountry(e.target.value);
+                          }}
                           type="text"
                         />
                       </FormGroup>
@@ -117,7 +188,14 @@ function UserProfile() {
                     <Col className="pl-md-1" md="4">
                       <FormGroup>
                         <label>Postal Code</label>
-                        <Input placeholder="ZIP Code" type="number" />
+                        <Input
+                          placeholder="ZIP Code"
+                          type="number"
+                          value={postal}
+                          onChange={(e) => {
+                            setPostal(e.target.value);
+                          }}
+                        />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -127,22 +205,23 @@ function UserProfile() {
                         <label>About Me</label>
                         <Input
                           cols="80"
-                          defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
-                            that two seat Lambo."
                           placeholder="Here can be your description"
                           rows="4"
                           type="textarea"
+                          value={aboutMe}
+                          onChange={(e) => {
+                            setAboutMe(e.target.value);
+                          }}
                         />
                       </FormGroup>
                     </Col>
                   </Row>
+                  <Button className="btn-fill" color="primary" type="submit">
+                    {/* {isLoading ? "Saving..." : "Save"} */}
+                    Save
+                  </Button>
                 </Form>
               </CardBody>
-              <CardFooter>
-                <Button className="btn-fill" color="primary" type="submit">
-                  Save
-                </Button>
-              </CardFooter>
             </Card>
           </Col>
           <Col md="4">

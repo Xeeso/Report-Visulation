@@ -1,10 +1,11 @@
 {
-  "name": "black-dashboard-react",
+  "name": "k",
   "version": "1.2.2",
   "private": true,
-  "homepage": "https://demos.creative-tim.com/black-dashboard-react/#/admin/dashboard",
+  "homepage": "/",
   "dependencies": {
     "@fortawesome/fontawesome-free": "6.4.0",
+    "axios": "^1.6.2",
     "bootstrap": "4.6.2",
     "bootstrap-icons": "^1.11.2",
     "chart.js": "3.9.1",
