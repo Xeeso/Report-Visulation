@@ -234,9 +234,6 @@ let chartExample2 = {
   options: chart1_2_options,
 };
 
-// #########################################
-// // // used inside src/views/Dashboard.js
-// #########################################
 let chartExample3 = {
   data: (canvas) => {
     let ctx = canvas.getContext("2d");
@@ -309,9 +306,7 @@ let chartExample3 = {
   },
 };
 
-// #########################################
-// // // used inside src/views/Dashboard.js
-// #########################################
+
 const chartExample4 = {
   data: (canvas) => {
     let ctx = canvas.getContext("2d");
@@ -323,7 +318,7 @@ const chartExample4 = {
     gradientStroke.addColorStop(0, "rgba(66,134,121,0)"); //green colors
 
     return {
-      labels: ["JUL", "AUG", "SEP", "OCT", "NOV"],
+      labels: ["JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
       datasets: [
         {
           label: "My First dataset",
@@ -340,7 +335,7 @@ const chartExample4 = {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
-          data: [90, 27, 60, 12, 80],
+          data: [90, 27, 60, 12, 80,100],
         },
       ],
     };
