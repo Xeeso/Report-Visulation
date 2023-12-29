@@ -1,8 +1,6 @@
-
 import React from "react";
 import classNames from "classnames";
 
-// reactstrap components
 import {
   Button,
   Collapse,
@@ -21,19 +19,21 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
+import { logOut } from "features/auth/authState";
+import { useDispatch } from "react-redux";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
+  const dispatch = useDispatch();
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
-    // Specify how to clean up after this effect:
     return function cleanup() {
       window.removeEventListener("resize", updateColor);
     };
   });
-  // function that adds color white/transparent to the navbar on resize (this is for the collapse)
+
   const updateColor = () => {
     if (window.innerWidth < 993 && collapseOpen) {
       setcolor("bg-white");
@@ -41,7 +41,7 @@ function AdminNavbar(props) {
       setcolor("navbar-transparent");
     }
   };
-  // this function opens and closes the collapse on small devices
+
   const toggleCollapse = () => {
     if (collapseOpen) {
       setcolor("navbar-transparent");
@@ -50,7 +50,7 @@ function AdminNavbar(props) {
     }
     setcollapseOpen(!collapseOpen);
   };
-  // this function is to open the Search modal
+
   const toggleModalSearch = () => {
     setmodalSearch(!modalSearch);
   };
@@ -134,7 +134,10 @@ function AdminNavbar(props) {
                   onClick={(e) => e.preventDefault()}
                 >
                   <div className="photo">
-                    <img alt="..." src={require("assets/img/default-avatar.png")} />
+                    <img
+                      alt="..."
+                      src={require("assets/img/default-avatar.png")}
+                    />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
                   <p className="d-lg-none">Log out</p>
@@ -148,7 +151,14 @@ function AdminNavbar(props) {
                   </NavLink>
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem
+                      className="nav-item"
+                      onClick={() => {
+                        dispatch(logOut());
+                      }}
+                    >
+                      Log out
+                    </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

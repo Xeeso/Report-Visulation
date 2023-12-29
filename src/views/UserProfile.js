@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 // reactstrap components
 import {
   Button,
@@ -14,6 +15,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { authentication } from "features/auth/authState";
 
 function UserProfile() {
   const [username, setUsername] = useState("");
@@ -25,14 +27,15 @@ function UserProfile() {
   const [country, setCountry] = useState("");
   const [postal, setPostal] = useState("");
   const [aboutMe, setAboutMe] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`http://localhost:4000/user`);
+      const response = await axios.get(`http://localhost:4000/auth/${user.id}`);
       if (response.status === 200) {
         const { data } = response;
-
         setUsername(data.name);
         setEmail(data.email);
         setFirstname(data.firstname);
@@ -46,26 +49,27 @@ function UserProfile() {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   const onHandleSubmit = async (e) => {
     e.preventDefault();
 
-    // setIsLoading(true);
-    const response = await axios.put(`http://localhost:4000/user`, {
-      name: username,
-      email,
-      firstname,
-      lastname,
-      address,
-      city,
-      country,
-      postalCode: postal,
-      aboutMe,
+    const response = await axios.put(`http://localhost:4000/auth/${user.id}`, {
+      name: username !== "" ? username : user.name,
+      email: email !== "" ? email : user.email,
+      firstname: firstname !== "" ? firstname : user.firstname,
+      lastname: lastname !== "" ? lastname : user.lastname,
+      address: address !== "" ? address : user.address,
+      city: city !== "" ? city : user.city,
+      country: country !== "" ? country : user.country,
+      postalCode: postal !== "" ? postal : user.postal,
+      aboutMe: aboutMe !== "" ? aboutMe : user.aboutMe,
     });
-    // setIsLoading(false);
 
-    if (response.status === 200) return response.data;
+    if (response.status === 200) {
+      dispatch(authentication(response.data));
+      return response.data;
+    }
   };
   return (
     <>
@@ -239,15 +243,13 @@ function UserProfile() {
                       className="avatar"
                       src={require("assets/img/CEO.jpg")}
                     />
-                    <h5 className="title">Davith srun</h5>
+                    <h5 className="title">
+                      {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
+                    </h5>
                   </a>
                   <p className="description">Ceo/Co-Founder</p>
                 </div>
-                <div className="card-description">
-                  Do not be scared of the truth because we need to restart the
-                  human foundation in truth And I love you like Kanye loves
-                  Kanye I love Rick Owens’ bed design but the back is...
-                </div>
+                <div className="card-description">{aboutMe}</div>
               </CardBody>
               <CardFooter>
                 <div className="button-container">

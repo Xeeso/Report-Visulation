@@ -1,4 +1,3 @@
-
 import React from "react";
 import classNames from "classnames";
 
@@ -21,6 +20,8 @@ import {
   ModalHeader,
   NavbarToggler,
 } from "reactstrap";
+import { logOut } from "features/auth/authState";
+import { useDispatch } from "react-redux";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
@@ -54,6 +55,9 @@ function AdminNavbar(props) {
   const toggleModalSearch = () => {
     setmodalSearch(!modalSearch);
   };
+
+  const dispatch = useDispatch();
+
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
@@ -148,7 +152,12 @@ function AdminNavbar(props) {
                   </NavLink>
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem
+                      className="nav-item"
+                      onClick={() => console.log("logout")}
+                    >
+                      Log out
+                    </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

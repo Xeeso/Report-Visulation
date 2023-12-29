@@ -17,14 +17,6 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/icons",
-    name: "Icons",
-    rtlName: "الرموز",
-    icon: "tim-icons icon-atom",
-    component: <Icons />,
-    layout: "/admin",
-  },
-  {
     path: "/notifications",
     name: "Notifications",
     rtlName: "إخطارات",
