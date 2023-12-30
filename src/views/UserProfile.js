@@ -27,6 +27,7 @@ function UserProfile() {
   const [country, setCountry] = useState("");
   const [postal, setPostal] = useState("");
   const [aboutMe, setAboutMe] = useState("");
+  const [img, setImg] = useState("");
 
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -238,11 +239,14 @@ function UserProfile() {
                   <div className="block block-three" />
                   <div className="block block-four" />
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                    <img
+                    <div className="input-file-img">
+                      {/* <img
                       alt="..."
                       className="avatar"
-                      src={require("assets/img/CEO.jpg")}
-                    />
+                      src={require("../assets/img/default-avatar.png")}
+                    /> */}
+                      <input type="file" />
+                    </div>
                     <h5 className="title">
                       {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
                     </h5>
