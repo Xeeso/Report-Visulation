@@ -23,12 +23,9 @@
       "id": 1
     },
     {
-      "id": 2,
-      "name": "alvin",
+      "name": "alvins",
       "email": "alvin@gmail.com",
-      "password": "123456",
-      "role": "admin",
-      "isAdmin": true
+      "id": 2
     },
     {
       "id": 3,
