@@ -240,12 +240,12 @@ function UserProfile() {
                   <div className="block block-four" />
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     <div className="input-file-img">
-                      {/* <img
+                      <img
                       alt="..."
                       className="avatar"
                       src={require("../assets/img/default-avatar.png")}
-                    /> */}
-                      <input type="file" />
+                    />
+                      {/* <input type="file" /> */}
                     </div>
                     <h5 className="title">
                       {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
